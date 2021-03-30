@@ -1,0 +1,50 @@
+.createproducts__container {
+  display: flex;
+  justify-content: center;
+  background-color: #f4f9f9;
+}
+
+.createproduct__form {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 8px 0 rgba(141, 141, 141, 0.2),
+    0 6px 20px 0 rgba(153, 153, 153, 0.19);
+  padding-bottom: 30px;
+}
+
+.createproduct__form > h1 {
+  background-image: linear-gradient(45deg, #28527a, #8ac4d0);
+  color: #ffffff;
+  width: 100%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.createproduct__form > img {
+  width: 200px;
+  height: 200px;
+  margin: auto;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px 0 rgba(141, 141, 141, 0.411),
+    0 6px 20px 0 rgba(153, 153, 153, 0.19);
+}
+
+.createproduct__form > label {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.createproduct__form > input {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.createproduct__form > textarea {
+  margin-left: 20px;
+  margin-right: 20px;
+	height: 125px;
+}

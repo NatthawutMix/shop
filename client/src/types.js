@@ -1,0 +1,7 @@
+export const SET_PRODUCTS = "SET_PRODUCTS";
+export const CREATE_PRODUCT = "CREATE_PRODUCT";
+export const REMOVE_PRODUCT = "REMOVE_PRODUCT";
+export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
+
+export const USER_LOGIN = "USER_LOGIN";
+export const USER_LOGOUT = "USER_LOGOUT";

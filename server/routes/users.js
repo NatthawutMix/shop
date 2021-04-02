@@ -11,7 +11,7 @@ function geneateToken(user) {
   return jwt.sign(
     {
       id: user.id,
-      email: user.email,
+      // email: user.email,
       username: user.username,
     },
     SECRET_KEY,
@@ -40,9 +40,7 @@ router.post("/register", async (req, res) => {
 
     const data = await newUser.save();
 
-    const token = geneateToken(res);
-    // console.log("data:", data);
-    // console.log("token:", token);
+    const token = geneateToken(data);
 
     res.json({
       ...data._doc,
@@ -72,7 +70,6 @@ router.post("/login", async (req, res) => {
       id: user._id,
       token,
     });
-    
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: err.message });

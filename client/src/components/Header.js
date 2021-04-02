@@ -1,26 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { connect } from "react-redux";
-import { userLogout } from "../redux/user";
 import { useStyles } from "../style/styleHeader";
 
-import {
-  AppBar,
-  Button,
-  IconButton,
-  Toolbar,
-  Typography,
-} from "@material-ui/core";
-import MenuIcon from "@material-ui/icons/Menu";
+import { AppBar, IconButton, Toolbar, Typography } from "@material-ui/core";
 
-const Header = ({ user, userLogout, showMenuBar }) => {
+import MenuIcon from "@material-ui/icons/Menu";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+
+const Header = ({ showMenuBar, cart }) => {
   const classes = useStyles();
+  const [countItem, setCountItem] = useState(0);
+
+  useEffect(() => {
+    let count = 0;
+    cart.forEach((item) => {
+      count += item.qty;
+    });
+    setCountItem(count);
+  }, [cart]);
 
   return (
     <div className={classes.root}>
       <AppBar position="static">
-        <Toolbar style={{ backgroundColor: "#a4ebf3", color: "#000000" }}>
+        <Toolbar style={{ backgroundColor: "#48B0C7", color: "#000000" }}>
           <IconButton
             edge="start"
             className={classes.menuButton}
@@ -35,26 +39,45 @@ const Header = ({ user, userLogout, showMenuBar }) => {
               HOME
             </Link>
           </Typography>
-          {user ? (
-            <Button color="inherit" onClick={() => userLogout()}>
-              LogOut
-            </Button>
-          ) : (
-            <Link
-              to="/login"
-              style={{ textDecoration: "none", color: "#ffffff" }}
+
+          <Link
+            style={{
+              backgroundColor: "#17517E",
+              border: "none",
+              margin: "10px 0 10px 0",
+              borderRadius: "10px",
+              width: "100px",
+              textDecoration: "none"
+            }}
+            to={"/cart"}
+          >
+            <Typography
+              variant="h6"
+              style={{
+                marginTop: "10px",
+                marginBottom: "10px",
+                padding: "5px 15px 5px 15px",
+                borderRadius: "15px",
+                color: "#ffffff",
+                display: "flex",
+                alignItems: "center",
+                fontFamily: `Balsamiq Sans`,
+              }}
             >
-              <Button color="inherit" as={Link} to="/login">
-                LogIn
-              </Button>
-            </Link>
-          )}
+              <ShoppingCartIcon
+                fontSize="large"
+                style={{ marginRight: "10px", color: "#ffffff" }}
+              />
+              {countItem}
+            </Typography>
+          </Link>
         </Toolbar>
       </AppBar>
     </div>
   );
 };
 
-export default connect((state) => ({ user: state.user.user }), { userLogout })(
-  Header
-);
+export default connect(
+  (state) => ({ cart: state.products.cart }),
+  null
+)(Header);

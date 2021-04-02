@@ -151,6 +151,7 @@ const SingleEdit = ({ updateProuct }) => {
           </Button>
         </form>
       )}
+
       {/* <DialogBox
         open={agreement}
         title={"Update ?"}

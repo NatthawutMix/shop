@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const { SECRET_KEY } = require("../config");
 
 module.exports = (headers) => {
-    console.log(headers);
+  console.log(headers);
   const authHeader = headers;
   if (authHeader) {
     const token = authHeader.split("Bearer ")[1];

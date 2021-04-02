@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+
 import {
   Button,
   Card,
@@ -11,8 +12,13 @@ import {
 
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import EditIcon from "@material-ui/icons/Edit";
+import swal from "sweetalert";
 
-const Product = ({ product, edit }) => {
+const Product = ({ product, edit, removeProduct, addToCart }) => {
+  const handleAddToCart = () => {
+    addToCart(product);
+  };
+
   return (
     <Card
       key={product._id}
@@ -32,7 +38,7 @@ const Product = ({ product, edit }) => {
             alignItems: "center",
           }}
         >
-          <Button color="secondary">
+          <Button color="secondary" onClick={() => removeProduct()}>
             <DeleteOutlineIcon color="secondary" />
           </Button>
           <Link to={`/edit/${product._id}`}>
@@ -42,41 +48,46 @@ const Product = ({ product, edit }) => {
           </Link>
         </CardActions>
       )}
-      <CardActionArea disabled={edit ? true : false}>
-        <img
-          style={{ width: "250px", height: "300px" }}
-          src={product.imgURL}
-          alt=""
-        />
-        <CardContent>
-          <Typography
-            style={{
-              fontFamily: `Balsamiq Sans`,
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-            }}
-            gutterBottom
-            variant="h5"
-            component="h2"
-          >
-            {product.name}
-          </Typography>
-          <Typography
-            style={{
-              fontFamily: `Balsamiq Sans, cursive`,
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-            }}
-            variant="body2"
-            color="textSecondary"
-            component="p"
-          >
-            {product.description}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
+      <Link
+        style={{ textDecoration: "none", color: "#000000" }}
+        to={`/${product._id}`}
+      >
+        <CardActionArea disabled={edit ? true : false}>
+          <img
+            style={{ width: "250px", height: "300px" }}
+            src={product.imgURL}
+            alt=""
+          />
+          <CardContent>
+            <Typography
+              style={{
+                fontFamily: `Balsamiq Sans`,
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+              gutterBottom
+              variant="h5"
+              component="h2"
+            >
+              {product.name}
+            </Typography>
+            <Typography
+              style={{
+                fontFamily: `Balsamiq Sans, cursive`,
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+              variant="body2"
+              color="textSecondary"
+              component="p"
+            >
+              {product.description}
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+      </Link>
       <CardActions
         style={{
           display: "flex",
@@ -92,14 +103,15 @@ const Product = ({ product, edit }) => {
         >
           Price: {product.price} Bath
         </Typography>
-        <Button
+        {/* <Button
           style={{ backgroundColor: "#9ede73" }}
           size="small"
           variant="contained"
           disabled={edit ? true : false}
+          onClick={handleAddToCart}
         >
           BUY
-        </Button>
+        </Button> */}
       </CardActions>
     </Card>
   );

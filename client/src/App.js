@@ -13,10 +13,12 @@ import CreateProduct from "./pages/CreateProduct";
 import EditProduct from "./pages/EditProduct";
 
 import SingleEdit from "./components/SingleEdit";
+import Carts from "./pages/Carts";
+import SingleProduct from "./components/SingleProduct";
+import PreviewAdded from "./components/PreviewAdded";
 
 function App() {
   const [sideToggle, setSideToggle] = useState(false);
-
   return (
     <Router>
       <Switch>
@@ -53,6 +55,25 @@ function App() {
           <Header showMenuBar={() => setSideToggle(!sideToggle)} />
           <CreateProduct />
         </Route>
+        <Route path="/cart">
+          <Backdrop
+            show={sideToggle}
+            click={() => setSideToggle(!sideToggle)}
+          />
+          <MenuBar show={sideToggle} click={() => setSideToggle(!sideToggle)} />
+          <Header showMenuBar={() => setSideToggle(!sideToggle)} />
+          <Carts />
+        </Route>
+        <Route path="/:id">
+          <Backdrop
+            show={sideToggle}
+            click={() => setSideToggle(!sideToggle)}
+          />
+          <MenuBar show={sideToggle} click={() => setSideToggle(!sideToggle)} />
+          <Header showMenuBar={() => setSideToggle(!sideToggle)} />
+          <SingleProduct />
+          <PreviewAdded />
+        </Route>
         <Route path="/">
           <Backdrop
             show={sideToggle}
@@ -61,6 +82,7 @@ function App() {
           <MenuBar show={sideToggle} click={() => setSideToggle(!sideToggle)} />
           <Header showMenuBar={() => setSideToggle(!sideToggle)} />
           <Homepage />
+          <PreviewAdded />
         </Route>
       </Switch>
     </Router>

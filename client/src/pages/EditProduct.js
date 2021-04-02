@@ -2,8 +2,24 @@ import React from "react";
 import { connect } from "react-redux";
 import { Container, Grid } from "@material-ui/core";
 import Product from "../components/Product";
+import { removeProduct } from "../redux/products";
+import axios from "../axios";
+import swal from "sweetalert";
 
-const EditProduct = ({ user, products }) => {
+const EditProduct = ({ user, products, removeProduct }) => {
+  const handleRemove = (product) => {
+    axios
+      .post("/products/delete", product)
+      .then((res) => {
+        removeProduct(product._id);
+      })
+      .catch((error) => {
+        swal(error.response.data.message, {
+          icon: "error",
+          button: false,
+        });
+      });
+  };
   return (
     <Container>
       {user ? (
@@ -13,7 +29,12 @@ const EditProduct = ({ user, products }) => {
               products
                 .filter((product) => product.ownerId === user.id)
                 .map((product) => (
-                  <Product key={product._id} product={product} edit={true} />
+                  <Product
+                    key={product._id}
+                    product={product}
+                    edit={true}
+                    removeProduct={() => handleRemove(product)}
+                  />
                 ))}
           </Grid>
         </div>
@@ -26,5 +47,5 @@ const EditProduct = ({ user, products }) => {
 
 export default connect(
   (state) => ({ user: state.user.user, products: state.products.products }),
-  {}
+  { removeProduct }
 )(EditProduct);

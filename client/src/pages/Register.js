@@ -22,7 +22,6 @@ const Register = ({ user, userLogin }) => {
     axios
       .post("/users/register", { ...data, email: null })
       .then((res) => {
-        console.log(res.data);
         userLogin(res.data);
       })
       .catch((error) => {

@@ -14,7 +14,11 @@ const CreateProduct = ({ user, addProduct }) => {
   const [url, setUrl] = useState(null);
   const onSubmit = (data) => {
     axios
-      .post("/products/create", data)
+      .post("/products/create", data, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+      })
       .then((res) => {
         addProduct(res.data);
       })

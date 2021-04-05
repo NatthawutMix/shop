@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { removeFromPreview } from "../redux/products";
 
-import AddItemCart from "../components/AddItemCart";
+import AddItemPreview from "./AddItemPreview";
 const PreviewAdded = ({ preview, removeFromPreview }) => {
   return (
     <div
@@ -15,7 +15,7 @@ const PreviewAdded = ({ preview, removeFromPreview }) => {
     >
       {preview.length !== 0 &&
         preview.map((product, index) => (
-          <AddItemCart
+          <AddItemPreview
             key={index}
             product={product}
             edit={false}

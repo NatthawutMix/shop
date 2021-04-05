@@ -1,5 +1,6 @@
 const express = require("express");
 const Product = require("../models/Product");
+const Order = require("../models/Order");
 const router = express.Router();
 
 const checkAuth = require("../util/check-auth");
@@ -56,12 +57,10 @@ router.post("/delete", async (req, res) => {
 
     if (user.id !== ownerId) throw new Error("You are not the owner");
 
-    console.log(user);
     let product = await Product.findById(_id);
     await product.delete();
 
     res.send("Deleted Successfully");
-    // res.send(id);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -89,14 +88,17 @@ router.post("/comment", async (req, res) => {
     let data = req.body;
 
     let user = checkAuth(req.headers.authorization);
-    console.log(user);
     if (data.comment.trim() === "") {
       throw new Error("Comment body must not empty");
     }
     let product = await Product.findById(data._id);
 
+    let comment = product.comments.find((c) => c.id === user.id);
+
+    if (comment) throw new Error("Commented");
+
     if (product) {
-      product.commentsList.unshift({
+      product.comments.unshift({
         rating: data.rating,
         comment: data.comment,
         id: user.id,
@@ -105,7 +107,35 @@ router.post("/comment", async (req, res) => {
       });
       await product.save();
       res.json(product);
-    } else throw new UserInputError("Product not found");
+    } else throw new Error("Product not found");
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.post("/order", async (req, res) => {
+  try {
+    let data = req.body;
+    let user = checkAuth(req.headers.authorization);
+    data.products.map(
+      async (product) =>
+        await Product.updateOne(
+          { _id: product._id },
+          { stock: product.stock - product.qty },
+          function (err) {
+            if (err) throw new Error(err);
+          }
+        )
+    );
+    let newOrder = new Order({
+      ...data,
+      orderIdBy: user.id,
+      orderNameBy: user.username,
+    });
+
+    let order = await newOrder.save();
+
+    res.json(order);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

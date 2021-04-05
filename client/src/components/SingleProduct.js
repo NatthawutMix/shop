@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "../axios";
 import { useParams } from "react-router";
 
 import { productRate } from "../util/util";
-import { addToCart, addToPreview } from "../redux/products";
+import { addToPreview, addToCart } from "../redux/products";
 
 import {
   Card,
@@ -17,7 +17,10 @@ import {
 import swal from "sweetalert";
 import ItemComment from "./ItemComment";
 
-const SingleProduct = ({ addToCart, addToPreview }) => {
+const SingleProduct = () => {
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.products.cart);
+
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [comment, setComment] = useState("");
@@ -34,8 +37,27 @@ const SingleProduct = ({ addToCart, addToPreview }) => {
   }, [id]);
 
   const handleAddToCart = () => {
-    addToCart(product);
-    addToPreview({ ...product });
+    if (product.stock === 0) {
+      swal("Over stock", {
+        icon: "error",
+        button: false,
+      });
+      return;
+    }
+
+    let limit = cart.findIndex(
+      (item) => item._id === product._id && item.stock === item.qty
+    );
+
+    if (limit >= 0) {
+      swal("Over stock", {
+        icon: "error",
+        button: false,
+      });
+    } else {
+      dispatch(addToCart(product));
+      dispatch(addToPreview({ ...product }));
+    }
   };
 
   const handleComment = () => {
@@ -119,7 +141,13 @@ const SingleProduct = ({ addToCart, addToPreview }) => {
               </Button>
             </CardContent>
           </Card>
-          <Card style={{ marginTop: "20px", marginBottom: "20px" }}>
+          <Card
+            style={{
+              marginBottom: "20px",
+              width: "70%",
+              margin: "20px auto 20px auto",
+            }}
+          >
             <CardContent>
               <h2>
                 Rating{" "}
@@ -132,8 +160,6 @@ const SingleProduct = ({ addToCart, addToPreview }) => {
                   onChange={(event) => setRating(event.target.value)}
                 />
               </h2>
-
-              <h1>Comment</h1>
               <textarea
                 style={{ resize: "none" }}
                 onChange={(event) => setComment(event.target.value)}
@@ -154,8 +180,8 @@ const SingleProduct = ({ addToCart, addToPreview }) => {
               </Button>
             </CardActions>
           </Card>
-          {product.commentsList.length !== 0 &&
-            product.commentsList.map((item, index) => (
+          {product.comments.length !== 0 &&
+            product.comments.map((item, index) => (
               <ItemComment key={index} product={item} />
             ))}
         </>
@@ -165,7 +191,4 @@ const SingleProduct = ({ addToCart, addToPreview }) => {
     </Container>
   );
 };
-export default connect(null, {
-  addToCart,
-  addToPreview,
-})(SingleProduct);
+export default SingleProduct;

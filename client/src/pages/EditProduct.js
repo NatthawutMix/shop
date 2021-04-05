@@ -9,8 +9,12 @@ import swal from "sweetalert";
 const EditProduct = ({ user, products, removeProduct }) => {
   const handleRemove = (product) => {
     axios
-      .post("/products/delete", product)
-      .then((res) => {
+      .post("/products/delete", product, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+      })
+      .then(() => {
         removeProduct(product._id);
       })
       .catch((error) => {

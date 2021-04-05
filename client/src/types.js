@@ -6,6 +6,7 @@ export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
 export const ADD_TO_CART = "ADD_TO_CART";
 export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
 export const PLUS_QTY_CART = "PLUS_QTY_CART";
+export const CLEAR_CART = "CLEAR_CART";
 
 export const ADD_TO_PREVIEW = "ADD_TO_PREVIEW";
 export const REMOVE_FROM_PREVIEW = "REMOVE_FROM_PREVIEW";

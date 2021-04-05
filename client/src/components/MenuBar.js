@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import "../css/MenuBar.css";
 import { useHistory } from "react-router";

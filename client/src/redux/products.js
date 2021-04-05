@@ -8,6 +8,7 @@ import {
   PLUS_QTY_CART,
   ADD_TO_PREVIEW,
   REMOVE_FROM_PREVIEW,
+  CLEAR_CART,
 } from "../types";
 
 const initialState = {
@@ -84,7 +85,7 @@ const products = (state = initialState, action) => {
 
     case REMOVE_FROM_CART:
       let newCart = [...state.cart];
-      let index = state.cart.findIndex((Item) => Item._id === action.payload);
+      let index = state.cart.findIndex((item) => item._id === action.payload);
 
       if (index >= 0) {
         newCart.splice(index, 1);
@@ -96,7 +97,11 @@ const products = (state = initialState, action) => {
         ...state,
         cart: newCart,
       };
-
+    case CLEAR_CART:
+      return {
+        ...state,
+        cart: [],
+      };
     case PLUS_QTY_CART:
       return {
         ...state,
@@ -197,6 +202,15 @@ export const plusQtyCart = (product) => {
     });
   };
 };
+
+export const clearCart = () => {
+  return (dispatch) => {
+    dispatch({
+      type: CLEAR_CART,
+    });
+  };
+};
+
 export const addToPreview = (product) => {
   return (dispatch) => {
     dispatch({

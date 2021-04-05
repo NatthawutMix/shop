@@ -41,7 +41,11 @@ const SingleEdit = ({ updateProuct }) => {
     };
     let cleanup = true;
     axios
-      .post("/products/update", data)
+      .post("/products/update", data, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+      })
       .then((res) => {
         if (cleanup) {
           updateProuct(res.data);

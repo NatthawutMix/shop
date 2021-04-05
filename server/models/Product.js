@@ -8,8 +8,7 @@ const productSchema = new Schema({
   imgURL: String,
   description: String,
   createdAt: String,
-  ratingList: Array,
-  commentsList: Array,
+  comments: Array,
 });
 
 module.exports = model("Product", productSchema);

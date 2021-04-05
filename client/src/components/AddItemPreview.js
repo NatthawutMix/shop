@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { Card, CardContent, Typography } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 
-const AddItemCart = ({ product, removeFromPreview }) => {
+const AddItemPreview = ({ product, removeFromPreview }) => {
   useEffect(() => {
     setTimeout(function () {
       removeFromPreview(product._id);
@@ -68,4 +68,4 @@ const AddItemCart = ({ product, removeFromPreview }) => {
   );
 };
 
-export default AddItemCart;
+export default AddItemPreview;

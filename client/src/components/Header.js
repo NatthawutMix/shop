@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import { useStyles } from "../style/styleHeader";
 
 import { AppBar, IconButton, Toolbar, Typography } from "@material-ui/core";
@@ -9,8 +9,10 @@ import { AppBar, IconButton, Toolbar, Typography } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 
-const Header = ({ showMenuBar, cart }) => {
+const Header = ({ showMenuBar }) => {
   const classes = useStyles();
+  const cart = useSelector((state) => state.products.cart);
+  
   const [countItem, setCountItem] = useState(0);
 
   useEffect(() => {
@@ -47,7 +49,7 @@ const Header = ({ showMenuBar, cart }) => {
               margin: "10px 0 10px 0",
               borderRadius: "10px",
               width: "100px",
-              textDecoration: "none"
+              textDecoration: "none",
             }}
             to={"/cart"}
           >
@@ -77,7 +79,4 @@ const Header = ({ showMenuBar, cart }) => {
   );
 };
 
-export default connect(
-  (state) => ({ cart: state.products.cart }),
-  null
-)(Header);
+export default Header;

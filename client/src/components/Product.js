@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
 import {
@@ -12,13 +12,8 @@ import {
 
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import EditIcon from "@material-ui/icons/Edit";
-import swal from "sweetalert";
 
-const Product = ({ product, edit, removeProduct, addToCart }) => {
-  const handleAddToCart = () => {
-    addToCart(product);
-  };
-
+const Product = ({ product, edit, removeProduct }) => {
   return (
     <Card
       key={product._id}
